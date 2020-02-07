@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modal Component</title>
+
+    <style>
+        * {
+            /* It Will Apply on All Elements Even Custom Ones */
+            /* But It WIll Not Apply On Elements inside the custom elements */
+            /* Because we put the elements in the "Shadow DOM" that make it really separated */
+            box-sizing: border-box;
+
+            margin: 2rem;
+            font-family: sans-serif;
+        }
+    </style>
+
+    <script src="./modal.js"></script>
+</head>
+<body>
+    <mxcd-modal></mxcd-modal>
+    <p>See More Details</p>
+    <button>More Details</button>
+</body>
+</html>
