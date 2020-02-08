@@ -12,6 +12,11 @@ class Modal extends HTMLElement {
                     pointer-events: all;
                 }
 
+                
+                :host([opened]) #modal {
+                    top: 20vh;
+                }
+
                 #backdrop {
                     position: fixed;
                     top: 0;
@@ -27,7 +32,7 @@ class Modal extends HTMLElement {
 
                 #modal {
                     position: fixed;
-                    top: 20vh;
+                    top: 10vh;
                     /* Nice Note we use 50% because it will be: left->25%  width->50%  left->25% and total will be 100%*/
                     left: 25%;
                     width: 50%;
@@ -41,14 +46,17 @@ class Modal extends HTMLElement {
                     opacity: 0;
                     /* Disable the Clicks Events on this element  */
                     pointer-events: none;
+                    transition: all .3s ease-out;
                 }
 
                 header {
                     padding: 1rem;
+                    border-bottom: 1px solid #ccc;
                 }
 
                 ::slotted([slot=title]) {
                     font-size: 1.25rem;
+                    margin: 0 !important;
                 }
 
                 #main {
@@ -119,9 +127,11 @@ class Modal extends HTMLElement {
             // console.dir(slots[1].assignedNodes()); // get all Nodes white-spaces, elements and text
         });
 
+        const backdrop = this.shadowRoot.querySelector('#backdrop');
         const cancelBtn = this.shadowRoot.querySelector('#cancel-btn');
         const confirmBtn = this.shadowRoot.querySelector('#confirm-btn');
 
+        backdrop.addEventListener('click', this._cancel.bind(this));
         cancelBtn.addEventListener('click', this._cancel.bind(this));
         confirmBtn.addEventListener('click', this._confirm.bind(this));
     }
