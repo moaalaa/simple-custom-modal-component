@@ -36,7 +36,10 @@
         const modal = document.querySelector('mxcd-modal');
 
         modalTrigger.addEventListener('click', () => {
-            modal.setAttribute('opened', '');
+            if (! modal.isOpened) {
+                // modal.setAttribute('opened', '');
+                modal.open();
+            }
         });
     </script>
 </body>

@@ -1,6 +1,7 @@
 class Modal extends HTMLElement {
     constructor() {
         super();
+        this.isOpened = false;
         this.attachShadow({mode: 'open'}); 
         this.shadowRoot.innerHTML = `
             <style>
@@ -111,22 +112,33 @@ class Modal extends HTMLElement {
     }
 
     // Good for many things but you can use some css instead for this use case that we just change some styles
-    // attributeChangedCallback(attr_name, old_value, new_value) {
-    //     if (attr_name === 'opened') {
-    //         if (this.hasAttribute('opened')) {
-    //             this.shadowRoot.querySelector('#backdrop').style.opacity = 1;  
-    //             this.shadowRoot.querySelector('#backdrop').style.pointerEvents = 'all';
+    attributeChangedCallback(attr_name, old_value, new_value) {
+        if (attr_name === 'opened') {
+            this.isOpened = this.hasAttribute('opened') ? true : false;
+            
+            // if (this.hasAttribute('opened')) {
+            //     this.shadowRoot.querySelector('#backdrop').style.opacity = 1;  
+            //     this.shadowRoot.querySelector('#backdrop').style.pointerEvents = 'all';
                 
-    //             this.shadowRoot.querySelector('#modal').style.opacity = 1;  
-    //             this.shadowRoot.querySelector('#modal').style.pointerEvents = 'all';
-    //         }
-    //     }
-        
-    // }
+            //     this.shadowRoot.querySelector('#modal').style.opacity = 1;  
+            //     this.shadowRoot.querySelector('#modal').style.pointerEvents = 'all';
+            // }
+        }
+    }
 
-    // static get observedAttributes() {
-    //     return ['opened'];
-    // }
+    static get observedAttributes() {
+        return ['opened'];
+    }
+
+    open() {
+        this.setAttribute('opened', '');
+        this.isOpened = true;
+    }
+
+    close() {
+        this.removeAttribute('opened');
+        this.isOpened = false;
+    }
 }
 
 customElements.define('mxcd-modal', Modal);
