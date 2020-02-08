@@ -27,6 +27,17 @@
         </p>
     </mxcd-modal>
     <p>See More Details</p>
+
     <button>More Details</button>
+
+    <script>
+        // We Will Just Select our above button because the other buttons in "Shadow DOM"
+        const modalTrigger = document.querySelector('button');
+        const modal = document.querySelector('mxcd-modal');
+
+        modalTrigger.addEventListener('click', () => {
+            modal.setAttribute('opened', '');
+        });
+    </script>
 </body>
 </html>

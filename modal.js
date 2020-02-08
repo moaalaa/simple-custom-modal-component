@@ -4,6 +4,13 @@ class Modal extends HTMLElement {
         this.attachShadow({mode: 'open'}); 
         this.shadowRoot.innerHTML = `
             <style>
+                :host([opened]) #backdrop,
+                :host([opened]) #modal {
+                    opacity: 1;
+                    /* Enable the Clicks Events on this element  */
+                    pointer-events: all;
+                }
+
                 #backdrop {
                     position: fixed;
                     top: 0;
@@ -12,6 +19,9 @@ class Modal extends HTMLElement {
                     height: 100vh; /* 100% will not work because we must set the body height first so we use 100vh */
                     background: rgba(0, 0, 0, .75);
                     z-index: 10;
+                    opacity: 0;
+                    /* Disable the Clicks Events on this element  */
+                    pointer-events: none;
                 }
 
                 #modal {
@@ -27,6 +37,9 @@ class Modal extends HTMLElement {
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
+                    opacity: 0;
+                    /* Disable the Clicks Events on this element  */
+                    pointer-events: none;
                 }
 
                 header {
@@ -52,6 +65,34 @@ class Modal extends HTMLElement {
                     margin: 0 .25rem; 
                 }
 
+                #actions button:first-child {
+                    background-color: #839595;
+                    color: #fff;
+                    padding: .2rem .75rem;
+                    border: 1px solid #ccc;
+                    cursor: pointer; 
+                }
+
+                #actions button:first-child:hover {
+                    background-color: #666e6e;
+                }
+                
+                #actions button:last-child {
+                    background-color: #334893;
+                    color: #fff;
+                    padding: .2rem .75rem;
+                    border: 1px solid #ccc;
+                    cursor: pointer; 
+                }
+                
+                #actions button:last-child:hover {
+                    background-color: #0f2885;
+                    color: #fff;
+                    padding: .2rem .75rem;
+                    border: 1px solid #ccc;
+                    cursor: pointer; 
+                }
+
             </style>
             <div id="backdrop"></div>
             <div id="modal">
@@ -68,6 +109,24 @@ class Modal extends HTMLElement {
             </div>
         `;
     }
+
+    // Good for many things but you can use some css instead for this use case that we just change some styles
+    // attributeChangedCallback(attr_name, old_value, new_value) {
+    //     if (attr_name === 'opened') {
+    //         if (this.hasAttribute('opened')) {
+    //             this.shadowRoot.querySelector('#backdrop').style.opacity = 1;  
+    //             this.shadowRoot.querySelector('#backdrop').style.pointerEvents = 'all';
+                
+    //             this.shadowRoot.querySelector('#modal').style.opacity = 1;  
+    //             this.shadowRoot.querySelector('#modal').style.pointerEvents = 'all';
+    //         }
+    //     }
+        
+    // }
+
+    // static get observedAttributes() {
+    //     return ['opened'];
+    // }
 }
 
 customElements.define('mxcd-modal', Modal);
