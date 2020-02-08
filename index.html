@@ -43,7 +43,13 @@
             }
         });
 
-        // modal
+        modal.addEventListener('confirmed', e => {
+            console.log('confirmed...');
+        });
+
+        modal.addEventListener('canceled', e => {
+            console.log('canceled...');
+        });
     </script>
 </body>
 </html>

@@ -66,7 +66,7 @@ class Modal extends HTMLElement {
                     margin: 0 .25rem; 
                 }
 
-                #actions button:first-child {
+                #actions #cancel-btn  {
                     background-color: #839595;
                     color: #fff;
                     padding: .2rem .75rem;
@@ -74,11 +74,11 @@ class Modal extends HTMLElement {
                     cursor: pointer; 
                 }
 
-                #actions button:first-child:hover {
+                #actions #cancel-btn :hover {
                     background-color: #666e6e;
                 }
                 
-                #actions button:last-child {
+                #actions #confirm-btn  {
                     background-color: #334893;
                     color: #fff;
                     padding: .2rem .75rem;
@@ -86,7 +86,7 @@ class Modal extends HTMLElement {
                     cursor: pointer; 
                 }
                 
-                #actions button:last-child:hover {
+                #actions #confirm-btn :hover {
                     background-color: #0f2885;
                     color: #fff;
                     padding: .2rem .75rem;
@@ -104,8 +104,8 @@ class Modal extends HTMLElement {
                     <slot></slot>
                 </section>
                 <footer id="actions">
-                    <button>Cancel</button>
-                    <button>Finish Reading</button>
+                    <button id="cancel-btn">Cancel</button>
+                    <button id="confirm-btn">Finish Reading</button>
                 </footer>
             </div>
         `;
@@ -118,6 +118,12 @@ class Modal extends HTMLElement {
             // console.dir(slots[1].assignedElements()); // get elements only
             // console.dir(slots[1].assignedNodes()); // get all Nodes white-spaces, elements and text
         });
+
+        const cancelBtn = this.shadowRoot.querySelector('#cancel-btn');
+        const confirmBtn = this.shadowRoot.querySelector('#confirm-btn');
+
+        cancelBtn.addEventListener('click', this._cancel.bind(this));
+        confirmBtn.addEventListener('click', this._confirm.bind(this));
     }
 
     // Good for many things but you can use some css instead for this use case that we just change some styles
@@ -145,9 +151,45 @@ class Modal extends HTMLElement {
     }
 
     close() {
-        this.removeAttribute('opened');
+        if (this.hasAttribute('opened')) {
+            this.removeAttribute('opened');
+            
+        }
         this.isOpened = false;
     }
+
+    _cancel(event) {
+        this.close();
+        const cancelEvent = new Event('canceled');
+        // event.target.dispatchEvent(cancelEvent, {
+            // Whether the event will fired from the target element 
+            // or will bubble up (go up) to the parent elements again and again 
+            // until it find the event listening
+        //     bubbles: true, 
+            // The Event May Leave the "Shadow DOM" if in one and try to bubbles it self
+        //     composed: true, 
+        // });
+
+        // Fire Event On Component it self not on target (button)
+        this.dispatchEvent(cancelEvent);
+    }
+
+    _confirm(event) {
+        this.close();
+        const confirmEvent = new Event('confirmed');
+        // event.target.dispatchEvent(cancelEvent, {
+            // Whether the event will fired from the target element 
+            // or will bubble up (go up) to the parent elements again and again 
+            // until it find the event listening
+        //     bubbles: true, 
+            // The Event May Leave the "Shadow DOM" if in one and try to bubbles it self
+        //     composed: true, 
+        // });
+
+        // Fire Event On Component it self not on target (button)
+        this.dispatchEvent(confirmEvent);
+    }
+
 }
 
 customElements.define('mxcd-modal', Modal);
