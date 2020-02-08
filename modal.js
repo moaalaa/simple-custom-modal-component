@@ -109,6 +109,15 @@ class Modal extends HTMLElement {
                 </footer>
             </div>
         `;
+
+        
+        const slots = this.shadowRoot.querySelectorAll('slot');
+
+        slots[1].addEventListener('slotchange', event => {
+            // get object view of element in console 
+            // console.dir(slots[1].assignedElements()); // get elements only
+            // console.dir(slots[1].assignedNodes()); // get all Nodes white-spaces, elements and text
+        });
     }
 
     // Good for many things but you can use some css instead for this use case that we just change some styles
